@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
-function CustomPagination({ count }) {
+function CustomPagination({ count, page, setPage }) {
 	return (
 		<Stack
 			spacing={2}
@@ -27,6 +27,8 @@ function CustomPagination({ count }) {
 		>
 			<Pagination
 				count={count}
+				page={page}
+				onChange={(event, value) => setPage(value)}
 				variant="outlined"
 				shape="rounded"
 				color="primary" // 使用主题的主要颜色
@@ -48,7 +50,7 @@ function CustomPagination({ count }) {
 	);
 }
 
-function GetCoffeeAPI({ page }) {
+function GetCoffeeAPI({ page, setPage }) {
 	const [cafeData, setCafeData] = useState([]);
 
 	useEffect(() => {
@@ -80,9 +82,11 @@ function GetCoffeeAPI({ page }) {
 			)}
 			<CustomPagination
 				count={Math.floor(cafeData.length / 12) + 1}
+				page={page}
+				setPage={setPage}
 			></CustomPagination>
 		</Grid>
-	);//
+	); //
 }
 
 function Top() {
@@ -112,7 +116,6 @@ function ClassificationNav() {
 }
 function Search() {
 	const [place, setPlace] = useState("");
-
 	const handleChange = (event) => {
 		setPlace(event.target.value);
 	};
@@ -152,6 +155,7 @@ function Search() {
 	);
 }
 function App() {
+	const [page, setPage] = useState(1); // 默认页数为1
 	return (
 		<div className="App">
 			<header>
@@ -180,7 +184,7 @@ function App() {
 				</Grid>
 				<Grid container justifyContent="center" spacing={2}>
 					<Grid item xs={12} md={10}>
-						<GetCoffeeAPI page={1} />
+						<GetCoffeeAPI page={page} setPage={setPage} />
 					</Grid>
 				</Grid>
 			</body>
