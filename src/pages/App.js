@@ -16,9 +16,12 @@ import {
 	MenuItem,
 	TextField,
 	Grid,
+	Skeleton,
+	ThemeProvider,
 } from "@mui/material";
 import FreeBreakfastOutlinedIcon from "@mui/icons-material/FreeBreakfastOutlined";
 import SearchIcon from "@mui/icons-material/Search";
+import { createTheme } from "@material-ui/core/styles";
 
 const cities = [
 	"台北",
@@ -40,6 +43,14 @@ const cities = [
 	"澎湖",
 	"連江",
 ];
+const theme = createTheme({
+	palette: {
+		primary: {
+			main: "#000000",
+			darker: "#FFFFFF",
+		},
+	},
+});
 function CustomPagination({ count, page, setPage }) {
 	return (
 		<Stack
@@ -57,27 +68,10 @@ function CustomPagination({ count, page, setPage }) {
 				shape="rounded"
 				color="primary" // 使用主题的主要颜色
 				size="large" // 增大分页按钮的大小
-				sx={{
-					"& .MuiPaginationItem-root": {
-						color: "#1976d2", // 定制颜色，示例中为Material UI的primary颜色
-					},
-					"& .Mui-selected": {
-						backgroundColor: "#1976d2", // 选中项的背景颜色
-						color: "#fff", // 选中项的文字颜色
-					},
-					"& .MuiPaginationItem-ellipsis": {
-						color: "action.active", // 省略号颜色
-					},
-				}}
 			/>
 		</Stack>
 	);
 }
-// function getCoffee(place) {
-//     const script = document.createElement('script');
-//     script.src = 'https://cafenomad.tw/api/v1.2/cafes/' + place;
-//     document.body.appendChild(script);
-// }
 
 function GetCoffeeAPI({ page, setPage }) {
 	const [cafeData, setCafeData] = useState([]);
@@ -101,20 +95,55 @@ function GetCoffeeAPI({ page, setPage }) {
 	}, []);
 	return (
 		<Grid container justifyContent="space-around" spacing={2}>
+			<Grid container justifyContent="center" style={{ margin: "20px 0px" }}>
+				<Grid item xs={12} md={10}>
+					<Search />
+				</Grid>
+			</Grid>
 			{cafeData.length > 0 ? (
-				cafeData.slice((page - 1) * 12, page * 12).map((cafe) => (
-					<Grid item xs={12} sm={6} md={3} key={cafe.id}>
-						<RecipeReviewCard cafe={cafe} />
+				<>
+					{cafeData.slice((page - 1) * 12, page * 12).map((cafe) => (
+						<Grid item xs={12} sm={6} md={3} key={cafe.id}>
+							<RecipeReviewCard cafe={cafe} />
+						</Grid>
+					))}
+					<CustomPagination
+						count={Math.floor(cafeData.length / 12) + 1}
+						page={page}
+						setPage={setPage}
+					/>
+				</>
+			) : (
+				Array.from(Array(12).keys()).map((index) => (
+					<Grid item xs={12} sm={6} md={3} key={index}>
+						<Skeleton
+							animation="wave"
+							variant="text"
+							className="text-skeleton"
+						/>
+						<Skeleton
+							animation="wave"
+							variant="rectangular"
+							className="image-skeleton"
+						/>
+						<Skeleton
+							animation="wave"
+							variant="text"
+							className="text-skeleton"
+						/>
+						<Skeleton
+							animation="wave"
+							variant="text"
+							className="text-skeleton"
+						/>
+						<Skeleton
+							animation="wave"
+							variant="text"
+							className="text-skeleton"
+						/>
 					</Grid>
 				))
-			) : (
-				<p>No cafes found.</p>
 			)}
-			<CustomPagination
-				count={Math.floor(cafeData.length / 12) + 1}
-				page={page}
-				setPage={setPage}
-			></CustomPagination>
 		</Grid>
 	); //
 }
@@ -139,6 +168,7 @@ function Top() {
 		</Toolbar>
 	);
 }
+
 function ClassificationNav() {
 	return (
 		<Toolbar variant="dense" sx={{ justifyContent: "center", width: "100%" }}>
@@ -164,6 +194,7 @@ function ClassificationNav() {
 		</Toolbar>
 	);
 }
+
 function Search() {
 	const [place, setPlace] = useState("");
 	const handleChange = (event) => {
@@ -174,7 +205,7 @@ function Search() {
 		<Grid container spacing={2}>
 			<Grid item xs={12} sm={3} md={2}>
 				<FormControl fullWidth>
-					<InputLabel id="demo-simple-select-label">地區</InputLabel>
+					<InputLabel id="demo-simple-select-label"> 地區 </InputLabel>
 					<Select
 						labelId="demo-simple-select-label"
 						id="demo-simple-select"
@@ -197,7 +228,7 @@ function Search() {
 					</Select>
 				</FormControl>
 			</Grid>
-			<Grid item xs={12} sm={6} md={9}>
+			<Grid item xs={12} sm={6} md={8}>
 				<TextField
 					id="outlined-basic"
 					label="請輸入關鍵詞"
@@ -209,10 +240,11 @@ function Search() {
 				item
 				xs={12}
 				sm={3}
-				md={1}
+				md={2}
 				container
 				alignItems="center"
 				justifyContent="center"
+				style={{ paddingLeft: 0 + "em" }}
 			>
 				<Button variant="contained" endIcon={<SearchIcon />}>
 					搜尋
@@ -221,10 +253,11 @@ function Search() {
 		</Grid>
 	);
 }
+
 function App() {
 	const [page, setPage] = useState(1); // 默认页数为1
 	return (
-		<div className="App">
+		<ThemeProvider className="App" theme={theme}>
 			<header>
 				<link
 					rel="stylesheet"
@@ -239,23 +272,14 @@ function App() {
 			</header>
 			<body>
 				<Top />
-				<ClassificationNav />
-				<Grid
-					container
-					justifyContent="center"
-					style={{ marginBottom: "20px" }}
-				>
-					<Grid item xs={12} md={10}>
-						<Search />
-					</Grid>
-				</Grid>
+				{/* <ClassificationNav /> */}
 				<Grid container justifyContent="center" spacing={2}>
 					<Grid item xs={12} md={10}>
 						<GetCoffeeAPI page={page} setPage={setPage} />
 					</Grid>
 				</Grid>
 			</body>
-		</div>
+		</ThemeProvider>
 	);
 }
 

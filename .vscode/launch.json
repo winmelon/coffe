@@ -8,5 +8,8 @@
       "url": "http://localhost:3000/",
       "webRoot": "${workspaceFolder}"
     }
-  ]
+  ],
+  "files.associations": {
+    "*.js": "javascriptreact"
+  }
 }

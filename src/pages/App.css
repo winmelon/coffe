@@ -2,30 +2,17 @@
     text-align: center;
 }
 
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
+.image-skeleton {
+    width: 100%;
+    padding-top: 75%;
+    /* 調整圖片的高度，使其呈現出正確的比例 */
+    position: relative;
+    /* 避免下方的 Skeleton 與之重疊 */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
-}
-
-.App-header {
-    background-color: #282c34;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
-}
-
-.App-link {
-    color: #61dafb;
+.text-skeleton {
+    padding-top: 1%;
+    /* 調整圖片的高度，使其呈現出正確的比例 */
 }
 
 .css-i1agjc {
