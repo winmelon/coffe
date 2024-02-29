@@ -2,6 +2,7 @@
     "name": "coffee",
     "version": "0.1.0",
     "private": true,
+    "proxy": "https://cafenomad.tw/",
     "dependencies": {
         "@emotion/react": "^11.11.3",
         "@emotion/styled": "^11.11.0",
@@ -14,9 +15,11 @@
         "@testing-library/react": "^13.4.0",
         "@testing-library/user-event": "^13.5.0",
         "axios": "^1.6.7",
+        "axios-jsonp": "^1.0.4",
         "buffer": "^6.0.3",
         "cors": "^2.8.5",
         "crypto-browserify": "^3.12.0",
+        "fetch-jsonp": "^1.3.0",
         "jquery": "^3.7.1",
         "path-browserify": "^1.0.1",
         "querystring": "^0.2.1",
@@ -33,9 +36,9 @@
         "zlib": "^1.0.5"
     },
     "scripts": {
-        "start": "react-scripts start",
-        "build": "react-scripts build",
-        "test": "react-scripts test",
+        "start": "react-app-rewired start",
+        "build": "react-app-rewired build",
+        "test": "react-app-rewired test",
         "eject": "react-scripts eject"
     },
     "eslintConfig": {
@@ -58,6 +61,8 @@
     },
     "devDependencies": {
         "@types/cors": "^2.8.17",
-        "prettier": "3.2.5"
+        "customize-cra": "^1.0.0",
+        "prettier": "3.2.5",
+        "react-app-rewired": "^2.2.1"
     }
 }

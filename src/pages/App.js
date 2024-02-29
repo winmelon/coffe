@@ -73,6 +73,11 @@ function CustomPagination({ count, page, setPage }) {
 		</Stack>
 	);
 }
+// function getCoffee(place) {
+//     const script = document.createElement('script');
+//     script.src = 'https://cafenomad.tw/api/v1.2/cafes/' + place;
+//     document.body.appendChild(script);
+// }
 
 function GetCoffeeAPI({ page, setPage }) {
 	const [cafeData, setCafeData] = useState([]);
@@ -80,7 +85,7 @@ function GetCoffeeAPI({ page, setPage }) {
 	useEffect(() => {
 		const fetchCafeData = async () => {
 			try {
-				const response = await fetch("https://cafenomad.tw/api/v1.2/cafes"); // 替換為你的 JSON 檔案路徑
+				const response = await fetch("/api/v1.2/cafes"); // 替換為你的 JSON 檔案路徑
 				// const response = await fetch("./cafes.json"); // 替換為你的 JSON 檔案路徑
 				if (!response.ok) {
 					throw new Error("Failed to fetch cafe data");
@@ -229,7 +234,7 @@ function App() {
 					rel="stylesheet"
 					href="https://fonts.googleapis.com/icon?family=Material+Icons"
 				/>
-				<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+				<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" />
 				<meta name="viewport" content="initial-scale=1, width=device-width" />
 			</header>
 			<body>
