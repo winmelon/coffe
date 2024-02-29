@@ -7,6 +7,9 @@ import {
 	FormControl,
 	InputLabel,
 	Container,
+	Toolbar,
+	Box,
+	Typography,
 	Stack,
 	Pagination,
 	Select,
@@ -14,8 +17,29 @@ import {
 	TextField,
 	Grid,
 } from "@mui/material";
+import FreeBreakfastOutlinedIcon from "@mui/icons-material/FreeBreakfastOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 
+const cities = [
+	"台北",
+	"基隆",
+	"桃園",
+	"新竹",
+	"苗栗",
+	"台中",
+	"南投",
+	"彰化",
+	"雲林",
+	"嘉義",
+	"台南",
+	"高雄",
+	"屏東",
+	"宜蘭",
+	"花蓮",
+	"台東",
+	"澎湖",
+	"連江",
+];
 function CustomPagination({ count, page, setPage }) {
 	return (
 		<Stack
@@ -56,7 +80,8 @@ function GetCoffeeAPI({ page, setPage }) {
 	useEffect(() => {
 		const fetchCafeData = async () => {
 			try {
-				const response = await fetch("./cafes.json"); // 替換為你的 JSON 檔案路徑
+				const response = await fetch("https://cafenomad.tw/api/v1.2/cafes"); // 替換為你的 JSON 檔案路徑
+				// const response = await fetch("./cafes.json"); // 替換為你的 JSON 檔案路徑
 				if (!response.ok) {
 					throw new Error("Failed to fetch cafe data");
 				}
@@ -91,27 +116,47 @@ function GetCoffeeAPI({ page, setPage }) {
 
 function Top() {
 	return (
-		<div class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular css-1n0i9zb">
-			<h2 class="MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter MuiTypography-noWrap css-1yk8bpk">
+		<Toolbar>
+			<Typography
+				variant="h5"
+				align="center"
+				noWrap
+				sx={{
+					flexGrow: 1,
+					display: "flex",
+					justifyContent: "center",
+					alignItems: "center",
+				}}
+			>
+				<FreeBreakfastOutlinedIcon fontSize="large" sx={{ mr: 1 }} />
 				Coffee
-			</h2>
-		</div>
+			</Typography>
+		</Toolbar>
 	);
 }
 function ClassificationNav() {
 	return (
-		<nav class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-dense css-i1agjc">
-			<Button variant="text">台北</Button>
-			<Button variant="text">桃園</Button>
-			<Button variant="text">新竹</Button>
-			<Button variant="text">台中</Button>
-			<Button variant="text">台南</Button>
-			<Button variant="text">高雄</Button>
-			<Button variant="text">屏東</Button>
-			<Button variant="text">宜蘭</Button>
-			<Button variant="text">花蓮</Button>
-			<Button variant="text">台東</Button>
-		</nav>
+		<Toolbar variant="dense" sx={{ justifyContent: "center", width: "100%" }}>
+			<Box
+				sx={{
+					display: "flex",
+					flexWrap: "wrap", // 允许项目在必要时换行
+					justifyContent: "space-between",
+					width: "80%",
+					"& > *": {
+						flexGrow: 1, // 使按钮可以根据可用空间伸缩
+						minWidth: "2em", // 设置按钮的最小宽度，保证文本不会被挤压
+						width: { xs: "100%", sm: "auto" }, // 在小屏幕上占满整行，在较大屏幕上自适应宽度
+					},
+				}}
+			>
+				{cities.map((city) => (
+					<Button key={city} variant="text">
+						{city}
+					</Button>
+				))}
+			</Box>
+		</Toolbar>
 	);
 }
 function Search() {
@@ -122,7 +167,7 @@ function Search() {
 
 	return (
 		<Grid container spacing={2}>
-			<Grid item xs={2}>
+			<Grid item xs={12} sm={3} md={2}>
 				<FormControl fullWidth>
 					<InputLabel id="demo-simple-select-label">地區</InputLabel>
 					<Select
@@ -131,23 +176,40 @@ function Search() {
 						value={place}
 						onChange={handleChange}
 						label="地區"
+						MenuProps={{
+							PaperProps: {
+								style: {
+									maxHeight: 48 * 8.5, // ITEM_HEIGHT是每个选项的高度，4.5是你想要显示的选项数
+								},
+							},
+						}}
 					>
-						<MenuItem value={"台北市"}>台北市</MenuItem>
-						<MenuItem value={"新竹市"}>新竹市</MenuItem>
-						<MenuItem value={"桃園市"}>桃園市</MenuItem>
+						{cities.map((city) => (
+							<MenuItem key={city} value={city}>
+								{city}
+							</MenuItem>
+						))}
 					</Select>
 				</FormControl>
 			</Grid>
-			<Grid item xs={9}>
+			<Grid item xs={12} sm={6} md={9}>
 				<TextField
 					id="outlined-basic"
-					label="Outlined"
+					label="請輸入關鍵詞"
 					variant="outlined"
 					fullWidth
 				/>
 			</Grid>
-			<Grid container xs={1} alignItems="center" justifyContent="center">
-				<Button variant="contained" endIcon={<SearchIcon fontSize="large" />}>
+			<Grid
+				item
+				xs={12}
+				sm={3}
+				md={1}
+				container
+				alignItems="center"
+				justifyContent="center"
+			>
+				<Button variant="contained" endIcon={<SearchIcon />}>
 					搜尋
 				</Button>
 			</Grid>
