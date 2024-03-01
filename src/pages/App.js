@@ -3,46 +3,47 @@ import "./App.css";
 import RecipeReviewCard from "../components/card";
 import React, { useState, useEffect } from "react";
 import {
-	Button,
-	FormControl,
-	InputLabel,
-	Container,
-	Toolbar,
 	Box,
-	Typography,
+	Grid,
 	Stack,
-	Pagination,
+	Button,
 	Select,
+	Toolbar,
+	Skeleton,
 	MenuItem,
 	TextField,
-	Grid,
-	Skeleton,
+	Pagination,
+	InputLabel,
+	Typography,
+	FormControl,
 	ThemeProvider,
+	InputAdornment,
 } from "@mui/material";
 import FreeBreakfastOutlinedIcon from "@mui/icons-material/FreeBreakfastOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import { createTheme } from "@material-ui/core/styles";
 
-const cities = [
-	"台北",
-	"基隆",
-	"桃園",
-	"新竹",
-	"苗栗",
-	"台中",
-	"南投",
-	"彰化",
-	"雲林",
-	"嘉義",
-	"台南",
-	"高雄",
-	"屏東",
-	"宜蘭",
-	"花蓮",
-	"台東",
-	"澎湖",
-	"連江",
-];
+const cities = {
+	台北: "taipei",
+	基隆: "keelung",
+	桃園: "taoyuan",
+	新竹: "hsinchu",
+	苗栗: "miaoli",
+	台中: "taichung",
+	彰化: "changhua",
+	南投: "nantou",
+	雲林: "yunlin",
+	嘉義: "chiayi",
+	台南: "tainan",
+	高雄: "kaohsiung",
+	屏東: "pingtung",
+	宜蘭: "yilan",
+	花蓮: "hualien",
+	台東: "taitung",
+	澎湖: "penghu",
+	金門: "kinmen",
+	連江: "lienchiang",
+};
 const theme = createTheme({
 	palette: {
 		primary: {
@@ -58,7 +59,7 @@ function CustomPagination({ count, page, setPage }) {
 			direction="row"
 			justifyContent="center"
 			alignItems="center"
-			sx={{ marginY: 4 }} // 添加上下边距
+			sx={{ marginY: 4 }} // 添加上下邊距
 		>
 			<Pagination
 				count={count}
@@ -67,46 +68,68 @@ function CustomPagination({ count, page, setPage }) {
 				variant="outlined"
 				shape="rounded"
 				color="primary" // 使用主题的主要颜色
-				size="large" // 增大分页按钮的大小
+				size="large" // 增大分頁按鈕的大小
 			/>
 		</Stack>
 	);
 }
-
-function GetCoffeeAPI({ page, setPage }) {
+async function FetchData(place) {
+	let url = "/api/v1.2/cafes" + (place === "" ? "" : "/" + place);
+	// console.log(url);
+	try {
+		// 確保使用正確的 URL 進行請求
+		const response = await fetch(url);
+		if (!response.ok) {
+			throw new Error("Failed to fetch cafe data");
+		}
+		const data = await response.json();
+		console.log(data);
+		return data;
+	} catch (error) {
+		console.error("Error fetching cafe data:", error);
+	}
+}
+function CoffeArea({ page, setPage }) {
 	const [cafeData, setCafeData] = useState([]);
+	const [place, setPlace] = useState("");
+	const [keyword, setKeyword] = useState("");
 
 	useEffect(() => {
-		const fetchCafeData = async () => {
-			try {
-				const response = await fetch("/api/v1.2/cafes"); // 替換為你的 JSON 檔案路徑
-				// const response = await fetch("./cafes.json"); // 替換為你的 JSON 檔案路徑
-				if (!response.ok) {
-					throw new Error("Failed to fetch cafe data");
-				}
-				const data = await response.json();
+		const fetchData = async () => {
+			const data = await FetchData(place);
+			if (data) {
 				setCafeData(data);
-			} catch (error) {
-				console.error("Error fetching cafe data:", error);
+				setPage(1);
 			}
 		};
-
-		fetchCafeData();
-	}, []);
+		fetchData();
+	}, [place]);
 	return (
 		<Grid container justifyContent="space-around" spacing={2}>
-			<Grid container justifyContent="center" style={{ margin: "20px 0px" }}>
+			<Grid container justifyContent="center" style={{ margin: "20px 25px" }}>
 				<Grid item xs={12} md={10}>
-					<Search />
+					<Search
+						place={place}
+						setPlace={setPlace}
+						keyword={keyword}
+						setKeyword={setKeyword}
+					/>
 				</Grid>
 			</Grid>
 			{cafeData.length > 0 ? (
 				<>
-					{cafeData.slice((page - 1) * 12, page * 12).map((cafe) => (
-						<Grid item xs={12} sm={6} md={3} key={cafe.id}>
-							<RecipeReviewCard cafe={cafe} />
-						</Grid>
-					))}
+					<Grid container xs={12}>
+						{cafeData
+							.filter((cafe) =>
+								cafe.name.toLowerCase().includes(keyword.toLowerCase())
+							) // 過濾包含關鍵字的cafe
+							.slice((page - 1) * 12, page * 12) // 根據當前頁碼計算顯示的數據
+							.map((cafe) => (
+								<Grid item xs={12} sm={6} md={3} key={cafe.id}>
+									<RecipeReviewCard cafe={cafe} />
+								</Grid>
+							))}
+					</Grid>
 					<CustomPagination
 						count={Math.floor(cafeData.length / 12) + 1}
 						page={page}
@@ -175,13 +198,13 @@ function ClassificationNav() {
 			<Box
 				sx={{
 					display: "flex",
-					flexWrap: "wrap", // 允许项目在必要时换行
+					flexWrap: "wrap", // 允許項目在必要時換行
 					justifyContent: "space-between",
 					width: "80%",
 					"& > *": {
-						flexGrow: 1, // 使按钮可以根据可用空间伸缩
-						minWidth: "2em", // 设置按钮的最小宽度，保证文本不会被挤压
-						width: { xs: "100%", sm: "auto" }, // 在小屏幕上占满整行，在较大屏幕上自适应宽度
+						flexGrow: 1, // 使按鈕可以根據可用空間伸縮
+						minWidth: "2em", // 設置按鈕的最小寬度，保證文本不會被擠壓
+						width: { xs: "100%", sm: "auto" }, // 在小屏幕上占滿整行，在較大屏幕上自適應寬度
 					},
 				}}
 			>
@@ -195,12 +218,7 @@ function ClassificationNav() {
 	);
 }
 
-function Search() {
-	const [place, setPlace] = useState("");
-	const handleChange = (event) => {
-		setPlace(event.target.value);
-	};
-
+function Search({ place, setPlace, keyword, setKeyword }) {
 	return (
 		<Grid container spacing={2}>
 			<Grid item xs={12} sm={3} md={2}>
@@ -210,52 +228,47 @@ function Search() {
 						labelId="demo-simple-select-label"
 						id="demo-simple-select"
 						value={place}
-						onChange={handleChange}
+						onChange={(event) => setPlace(event.target.value)}
 						label="地區"
 						MenuProps={{
 							PaperProps: {
 								style: {
-									maxHeight: 48 * 8.5, // ITEM_HEIGHT是每个选项的高度，4.5是你想要显示的选项数
+									maxHeight: 48 * 8.5, // 48是每個選項的高度
 								},
 							},
 						}}
 					>
-						{cities.map((city) => (
-							<MenuItem key={city} value={city}>
+						{Object.entries(cities).map(([city, cityEng]) => (
+							<MenuItem key={city} value={cityEng}>
 								{city}
 							</MenuItem>
 						))}
 					</Select>
 				</FormControl>
 			</Grid>
-			<Grid item xs={12} sm={6} md={8}>
+			<Grid item xs={12} sm={9} md={10}>
 				<TextField
 					id="outlined-basic"
-					label="請輸入關鍵詞"
+					label="店名關鍵詞"
+					value={keyword}
+					onChange={(event) => setKeyword(event.target.value)}
 					variant="outlined"
 					fullWidth
+					InputProps={{
+						endAdornment: (
+							<InputAdornment position="end">
+								<SearchIcon />
+							</InputAdornment>
+						),
+					}}
 				/>
-			</Grid>
-			<Grid
-				item
-				xs={12}
-				sm={3}
-				md={2}
-				container
-				alignItems="center"
-				justifyContent="center"
-				style={{ paddingLeft: 0 + "em" }}
-			>
-				<Button variant="contained" endIcon={<SearchIcon />}>
-					搜尋
-				</Button>
 			</Grid>
 		</Grid>
 	);
 }
 
 function App() {
-	const [page, setPage] = useState(1); // 默认页数为1
+	const [page, setPage] = useState(1); // 默認頁數為1
 	return (
 		<ThemeProvider className="App" theme={theme}>
 			<header>
@@ -275,7 +288,7 @@ function App() {
 				{/* <ClassificationNav /> */}
 				<Grid container justifyContent="center" spacing={2}>
 					<Grid item xs={12} md={10}>
-						<GetCoffeeAPI page={page} setPage={setPage} />
+						<CoffeArea page={page} setPage={setPage} />
 					</Grid>
 				</Grid>
 			</body>

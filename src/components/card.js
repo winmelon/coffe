@@ -1,22 +1,15 @@
 import defaultCafe from "../assets/images/default-cafe.png";
 import * as React from "react";
-import { useEffect, useState } from "react";
-import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
-import Collapse from "@mui/material/Collapse";
-import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import RadioGroupRating from "./rate";
+
 function extractPageIdFromUrl(url) {
 	// 切割 URL，以斜線為分隔符
 	const parts = url.split("/");
@@ -39,7 +32,6 @@ function extractPageIdFromUrl(url) {
 }
 
 export default function RecipeReviewCard({ cafe }) {
-	const [avatarUrl, setAvatarUrl] = useState("");
 	let url = cafe.url;
 	url = extractPageIdFromUrl(url);
 	return (
@@ -52,8 +44,7 @@ export default function RecipeReviewCard({ cafe }) {
 					minHeight: "360px",
 				}}
 			>
-				{" "}
-				{/* 设置了最小高度 */}
+				{/* 設置了最小高度 */}
 				<CardHeader
 					title={cafe.name}
 					subheader={cafe.address}
@@ -62,7 +53,7 @@ export default function RecipeReviewCard({ cafe }) {
 							display: "-webkit-box",
 							overflow: "hidden",
 							WebkitBoxOrient: "vertical",
-							WebkitLineClamp: 2, // 限制标题为两行
+							WebkitLineClamp: 2, // 限制標題為兩行
 						},
 					}}
 					subheaderTypographyProps={{
@@ -70,25 +61,24 @@ export default function RecipeReviewCard({ cafe }) {
 							display: "-webkit-box",
 							overflow: "hidden",
 							WebkitBoxOrient: "vertical",
-							WebkitLineClamp: 1, // 限制副标题为一行
+							WebkitLineClamp: 1, // 限制副標題為一行
 						},
 					}}
-					style={{ minHeight: "6em" }} // 根据需要设置最小高度，这里假设标题最多2行，副标题1行
+					style={{ minHeight: "6em" }} // 根據需要設置最小高度，這裡假設標題最多2行，副標題1行
 				/>
 				<CardMedia
 					component="img"
 					image={"https://graph.facebook.com/" + url + "/picture?type=large"}
-					onError={(e) => (e.target.src = defaultCafe)} // 当加载失败时，替换为默认图片
+					onError={(e) => (e.target.src = defaultCafe)} // 當加載失敗時，替換為默認圖片
 					alt={cafe.name}
 					style={{
-						height: "140px", // 设定图片高度
-						width: "100%", // 使图片宽度填充容器
-						objectFit: "contain", // 防止图片过大时溢出容器
-						objectPosition: "center", // 图片居中显示
+						height: "140px", // 設定圖片高度
+						width: "100%", // 使圖片寬度填充容器
+						objectFit: "contain", // 防止圖片過大時溢出容器
+						objectPosition: "center",
 					}}
 				/>
 				<CardContent style={{ flex: 1, overflow: "hidden" }}>
-					{" "}
 					{/* 防止内容溢出 */}
 					<RadioGroupRating value={cafe.quiet} topic={"安靜"} />
 					<RadioGroupRating value={cafe.tasty} topic={"美味"} />
