@@ -71,7 +71,7 @@ function CustomPagination({ count, page, setPage }) {
 	);
 }
 async function FetchData(place) {
-	let url = "/api/v1.2/cafes" + (place === "" ? "" : "/" + place);
+	let url = "http://cafenomad.tw/api/v1.2/cafes" + (place === "" ? "" : "/" + place);
 	// console.log(url);
 	try {
 		// 確保使用正確的 URL 進行請求
