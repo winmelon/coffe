@@ -1,4 +1,4 @@
-import logo from "../assets/images/logo.svg";
+
 import "./App.css";
 import RecipeReviewCard from "../components/card";
 import React, { useState, useEffect } from "react";

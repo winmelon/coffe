@@ -1,15 +1,11 @@
 import defaultCafe from "../assets/images/default-cafe.png";
-import React, { useState, useEffect } from "react";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
+import React, { useState } from "react";
 import RadioGroupRating from "./rate";
 import {
 	Card,
 	CardMedia,
 	CardHeader,
-	IconButton,
 	CardContent,
-	CardActions,
 	CardActionArea,
 } from "@mui/material";
 import ScrollDialog from "./scrolldialog";
