@@ -97,14 +97,14 @@ export default function RecipeReviewCard({ cafe }) {
 						<RadioGroupRating value={cafe.tasty} topic={"美味"} />
 						<RadioGroupRating value={cafe.cheap} topic={"CP值"} />
 					</CardContent>
-					<CardActions disableSpacing>
+					{/* <CardActions disableSpacing>
 						<IconButton aria-label="add to favorites">
 							<FavoriteIcon />
 						</IconButton>
 						<IconButton aria-label="share">
 							<ShareIcon />
 						</IconButton>
-					</CardActions>
+					</CardActions> */}
 				</CardActionArea>
 			</Card>
 			<ScrollDialog

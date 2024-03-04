@@ -194,7 +194,7 @@ function Top() {
 				}}
 			>
 				<FreeBreakfastOutlinedIcon fontSize="large" sx={{ mr: 1 }} />
-				Coffee
+				CofFinder
 			</Typography>
 		</Toolbar>
 	);
