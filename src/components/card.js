@@ -1,14 +1,18 @@
 import defaultCafe from "../assets/images/default-cafe.png";
-import * as React from "react";
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-import IconButton from "@mui/material/IconButton";
+import React, { useState, useEffect } from "react";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import RadioGroupRating from "./rate";
+import {
+	Card,
+	CardMedia,
+	CardHeader,
+	IconButton,
+	CardContent,
+	CardActions,
+	CardActionArea,
+} from "@mui/material";
+import ScrollDialog from "./scrolldialog";
 
 function extractPageIdFromUrl(url) {
 	// 切割 URL，以斜線為分隔符
@@ -34,6 +38,13 @@ function extractPageIdFromUrl(url) {
 export default function RecipeReviewCard({ cafe }) {
 	let url = cafe.url;
 	url = extractPageIdFromUrl(url);
+	const [ScrollDialogOpen, setScrollDialogOpen] = useState(false);
+
+	const handleClick = () => {
+		setScrollDialogOpen(true);
+		console.log(cafe);
+	};
+
 	return (
 		<div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
 			<Card
@@ -42,57 +53,65 @@ export default function RecipeReviewCard({ cafe }) {
 					display: "flex",
 					flexDirection: "column",
 					minHeight: "360px",
+					margin: "1em",
 				}}
 			>
-				{/* 設置了最小高度 */}
-				<CardHeader
-					title={cafe.name}
-					subheader={cafe.address}
-					titleTypographyProps={{
-						style: {
-							display: "-webkit-box",
-							overflow: "hidden",
-							WebkitBoxOrient: "vertical",
-							WebkitLineClamp: 2, // 限制標題為兩行
-						},
-					}}
-					subheaderTypographyProps={{
-						style: {
-							display: "-webkit-box",
-							overflow: "hidden",
-							WebkitBoxOrient: "vertical",
-							WebkitLineClamp: 1, // 限制副標題為一行
-						},
-					}}
-					style={{ minHeight: "6em" }} // 根據需要設置最小高度，這裡假設標題最多2行，副標題1行
-				/>
-				<CardMedia
-					component="img"
-					image={"https://graph.facebook.com/" + url + "/picture?type=large"}
-					onError={(e) => (e.target.src = defaultCafe)} // 當加載失敗時，替換為默認圖片
-					alt={cafe.name}
-					style={{
-						height: "140px", // 設定圖片高度
-						width: "100%", // 使圖片寬度填充容器
-						objectFit: "contain", // 防止圖片過大時溢出容器
-						objectPosition: "center",
-					}}
-				/>
-				<CardContent style={{ flex: 1, overflow: "hidden" }}>
-					{/* 防止内容溢出 */}
-					<RadioGroupRating value={cafe.quiet} topic={"安靜"} />
-					<RadioGroupRating value={cafe.tasty} topic={"美味"} />
-					<RadioGroupRating value={cafe.cheap} topic={"CP值"} />
-				</CardContent>
-				<CardActions disableSpacing>
-					<IconButton aria-label="add to favorites">
-						<FavoriteIcon />
-					</IconButton>
-					<IconButton aria-label="share">
-						<ShareIcon />
-					</IconButton>
-				</CardActions>
+				<CardActionArea onClick={handleClick}>
+					{/* 設置了最小高度 */}
+					<CardHeader
+						title={cafe.name}
+						subheader={cafe.address}
+						titleTypographyProps={{
+							style: {
+								display: "-webkit-box",
+								overflow: "hidden",
+								WebkitBoxOrient: "vertical",
+								WebkitLineClamp: 2, // 限制標題為兩行
+							},
+						}}
+						subheaderTypographyProps={{
+							style: {
+								display: "-webkit-box",
+								overflow: "hidden",
+								WebkitBoxOrient: "vertical",
+								WebkitLineClamp: 1, // 限制副標題為一行
+							},
+						}}
+						style={{ minHeight: "6em" }} // 根據需要設置最小高度，這裡假設標題最多2行，副標題1行
+					/>
+					<CardMedia
+						component="img"
+						image={"https://graph.facebook.com/" + url + "/picture?type=large"}
+						onError={(e) => (e.target.src = defaultCafe)} // 當加載失敗時，替換為默認圖片
+						alt={cafe.name}
+						style={{
+							height: "140px", // 設定圖片高度
+							width: "100%", // 使圖片寬度填充容器
+							objectFit: "contain", // 防止圖片過大時溢出容器
+							objectPosition: "center",
+						}}
+					/>
+					<CardContent style={{ flex: 1, overflow: "hidden" }}>
+						{/* 防止内容溢出 */}
+						<RadioGroupRating value={cafe.quiet} topic={"安靜"} />
+						<RadioGroupRating value={cafe.tasty} topic={"美味"} />
+						<RadioGroupRating value={cafe.cheap} topic={"CP值"} />
+					</CardContent>
+					<CardActions disableSpacing>
+						<IconButton aria-label="add to favorites">
+							<FavoriteIcon />
+						</IconButton>
+						<IconButton aria-label="share">
+							<ShareIcon />
+						</IconButton>
+					</CardActions>
+				</CardActionArea>
 			</Card>
+			<ScrollDialog
+				cafe={cafe}
+				ScrollDialogOpen={ScrollDialogOpen}
+				setScrollDialogOpen={setScrollDialogOpen}
+			/>
 		</div>
 	);
 }

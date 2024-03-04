@@ -89,7 +89,8 @@ async function FetchData(place) {
 		console.error("Error fetching cafe data:", error);
 	}
 }
-function CoffeArea({ page, setPage }) {
+function CoffeArea() {
+	const [page, setPage] = useState(1); // 默認頁數為1
 	const [cafeData, setCafeData] = useState([]);
 	const [place, setPlace] = useState("");
 	const [keyword, setKeyword] = useState("");
@@ -113,12 +114,13 @@ function CoffeArea({ page, setPage }) {
 						setPlace={setPlace}
 						keyword={keyword}
 						setKeyword={setKeyword}
+						setPage={setPage}
 					/>
 				</Grid>
 			</Grid>
 			{cafeData.length > 0 ? (
 				<>
-					<Grid container xs={12}>
+					<Grid container xs={12} justifyContent="center" alignItems="center">
 						{cafeData
 							.filter((cafe) =>
 								cafe.name.toLowerCase().includes(keyword.toLowerCase())
@@ -131,7 +133,13 @@ function CoffeArea({ page, setPage }) {
 							))}
 					</Grid>
 					<CustomPagination
-						count={Math.floor(cafeData.length / 12) + 1}
+						count={
+							Math.floor(
+								cafeData.filter((cafe) =>
+									cafe.name.toLowerCase().includes(keyword.toLowerCase())
+								).length / 12
+							) + 1
+						}
 						page={page}
 						setPage={setPage}
 					/>
@@ -218,7 +226,7 @@ function ClassificationNav() {
 	);
 }
 
-function Search({ place, setPlace, keyword, setKeyword }) {
+function Search({ place, setPlace, keyword, setKeyword, setPage }) {
 	return (
 		<Grid container spacing={2}>
 			<Grid item xs={12} sm={3} md={2}>
@@ -251,7 +259,10 @@ function Search({ place, setPlace, keyword, setKeyword }) {
 					id="outlined-basic"
 					label="店名關鍵詞"
 					value={keyword}
-					onChange={(event) => setKeyword(event.target.value)}
+					onChange={(event) => {
+						setKeyword(event.target.value);
+						setPage(1);
+					}}
 					variant="outlined"
 					fullWidth
 					InputProps={{
@@ -268,7 +279,6 @@ function Search({ place, setPlace, keyword, setKeyword }) {
 }
 
 function App() {
-	const [page, setPage] = useState(1); // 默認頁數為1
 	return (
 		<ThemeProvider className="App" theme={theme}>
 			<header>
@@ -281,14 +291,13 @@ function App() {
 					href="https://fonts.googleapis.com/icon?family=Material+Icons"
 				/>
 				<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" />
-				<meta name="viewport" content="initial-scale=1, width=device-width" />
 			</header>
 			<body>
 				<Top />
 				{/* <ClassificationNav /> */}
 				<Grid container justifyContent="center" spacing={2}>
 					<Grid item xs={12} md={10}>
-						<CoffeArea page={page} setPage={setPage} />
+						<CoffeArea />
 					</Grid>
 				</Grid>
 			</body>
