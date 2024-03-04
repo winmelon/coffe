@@ -1,4 +1,3 @@
-
 import "./App.css";
 import RecipeReviewCard from "../components/card";
 import React, { useState, useEffect } from "react";
@@ -200,31 +199,31 @@ function Top() {
 	);
 }
 
-function ClassificationNav() {
-	return (
-		<Toolbar variant="dense" sx={{ justifyContent: "center", width: "100%" }}>
-			<Box
-				sx={{
-					display: "flex",
-					flexWrap: "wrap", // 允許項目在必要時換行
-					justifyContent: "space-between",
-					width: "80%",
-					"& > *": {
-						flexGrow: 1, // 使按鈕可以根據可用空間伸縮
-						minWidth: "2em", // 設置按鈕的最小寬度，保證文本不會被擠壓
-						width: { xs: "100%", sm: "auto" }, // 在小屏幕上占滿整行，在較大屏幕上自適應寬度
-					},
-				}}
-			>
-				{cities.map((city) => (
-					<Button key={city} variant="text">
-						{city}
-					</Button>
-				))}
-			</Box>
-		</Toolbar>
-	);
-}
+// function ClassificationNav() {
+// 	return (
+// 		<Toolbar variant="dense" sx={{ justifyContent: "center", width: "100%" }}>
+// 			<Box
+// 				sx={{
+// 					display: "flex",
+// 					flexWrap: "wrap", // 允許項目在必要時換行
+// 					justifyContent: "space-between",
+// 					width: "80%",
+// 					"& > *": {
+// 						flexGrow: 1, // 使按鈕可以根據可用空間伸縮
+// 						minWidth: "2em", // 設置按鈕的最小寬度，保證文本不會被擠壓
+// 						width: { xs: "100%", sm: "auto" }, // 在小屏幕上占滿整行，在較大屏幕上自適應寬度
+// 					},
+// 				}}
+// 			>
+// 				{cities.map((city) => (
+// 					<Button key={city} variant="text">
+// 						{city}
+// 					</Button>
+// 				))}
+// 			</Box>
+// 		</Toolbar>
+// 	);
+// }
 
 function Search({ place, setPlace, keyword, setKeyword, setPage }) {
 	return (
