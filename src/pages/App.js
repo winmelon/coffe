@@ -70,22 +70,22 @@ function CustomPagination({ count, page, setPage }) {
 		</Stack>
 	);
 }
-async function FetchData(place) {
-	// let url = "cafes.json";
-	let url = "/coffiapi" + (place === "" ? "" :(  "/"+place));
-	console.log(url);
-	try {
-		// 確保使用正確的 URL 進行請求
-		const response = await fetch(url);
-		if (!response.ok) {
-			throw new Error("Failed to fetch cafe data");
-		}
-		const data = await response.json();
-		console.log(data);
-		return data;
-	} catch (error) {
-		console.error("Error fetching cafe data:", error);
-	}
+async function FetchData(place = '') {
+    // 構建 URL，根據是否提供了 `place` 參數來決定是否加入查詢字符串
+    const url = `/.netlify/functions/fetch-coffee${place ? `?place=${place}` : ''}`;
+    try {
+        // 確保使用正確的 URL 進行請求
+        const response = await fetch(url);
+		console.log(response);
+        if (!response.ok) {
+            throw new Error("Failed to fetch cafe data");
+        }
+        const data = await response.json();
+        console.log(data);
+        return data;
+    } catch (error) {
+        console.error("Error fetching cafe data:", error);
+    }
 }
 function CoffeArea() {
 	const [page, setPage] = useState(1); // 默認頁數為1
