@@ -1,0 +1,5 @@
+[[redirects]]
+from = "/coffiapi/*"
+to = "https://cafenomad.tw/api/v1.2/cafes/:splat"
+status = 200
+force = true
