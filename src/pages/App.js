@@ -72,7 +72,7 @@ function CustomPagination({ count, page, setPage }) {
 }
 async function FetchData(place) {
 	// let url = "cafes.json";
-	let url = "https://netlify--coffinder.netlify.app/coffiapi" + (place === "" ? "" :(  "/"+place));
+	let url = "/coffiapi" + (place === "" ? "" :(  "/"+place));
 	console.log(url);
 	try {
 		// 確保使用正確的 URL 進行請求
