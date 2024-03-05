@@ -71,8 +71,8 @@ function CustomPagination({ count, page, setPage }) {
 	);
 }
 async function FetchData(place) {
-	let url = "/coffeeapi/" + (place === "" ? "" :  place);
-	// console.log(url);
+	let url = "/coffeeapi" + (place === "" ? "" :(  "/"+place));
+	console.log(url);
 	try {
 		// 確保使用正確的 URL 進行請求
 		const response = await fetch(url);
