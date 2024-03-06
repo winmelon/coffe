@@ -19,7 +19,7 @@ import {
 import FreeBreakfastOutlinedIcon from "@mui/icons-material/FreeBreakfastOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import { createTheme } from "@material-ui/core/styles";
-
+import GitHubIcon from "@mui/icons-material/GitHub";
 const cities = {
 	台北: "taipei",
 	基隆: "keelung",
@@ -70,22 +70,22 @@ function CustomPagination({ count, page, setPage }) {
 		</Stack>
 	);
 }
-async function FetchData(place = '') {
-    // 構建 URL，根據是否提供了 `place` 參數來決定是否加入查詢字符串
-    const url = `/.netlify/functions/fetch-coffee${place ? `?place=${place}` : ''}`;
-    try {
-        // 確保使用正確的 URL 進行請求
-        const response = await fetch(url);
+async function FetchData(place = "") {
+	// 構建 URL，根據是否提供了 `place` 參數來決定是否加入查詢字符串
+	const url = `/.netlify/functions/fetch-coffee${place ? `?place=${place}` : ""}`;
+	try {
+		// 確保使用正確的 URL 進行請求
+		const response = await fetch(url);
 		console.log(response);
-        if (!response.ok) {
-            throw new Error("Failed to fetch cafe data");
-        }
-        const data = await response.json();
-        console.log(data);
-        return data;
-    } catch (error) {
-        console.error("Error fetching cafe data:", error);
-    }
+		if (!response.ok) {
+			throw new Error("Failed to fetch cafe data");
+		}
+		const data = await response.json();
+		console.log(data);
+		return data;
+	} catch (error) {
+		console.error("Error fetching cafe data:", error);
+	}
 }
 function CoffeArea() {
 	const [page, setPage] = useState(1); // 默認頁數為1
@@ -299,6 +299,12 @@ function App() {
 					</Grid>
 				</Grid>
 			</body>
+			<footer style={{ textAlign: "Center", fontSize: "larger" }}>
+				<a href="https://github.com/winmelon/coffee">
+					<GitHubIcon style={{fontSize: "1em"}}/>
+					Power By winmelon
+				</a>
+			</footer>
 		</ThemeProvider>
 	);
 }
