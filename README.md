@@ -1,70 +1,28 @@
-# Getting Started with Create React App
+# 咖啡廳搜尋網站
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+這個網站是一個咖啡廳搜尋平台，旨在幫助使用者輕鬆找到全台各地的咖啡廳資訊。通過連接至 [Cafe Nomad API](http://cafenomad.tw/api/v1.2/cafes)，我們提供了一個豐富的咖啡廳數據庫，讓使用者可以根據自己的喜好和需求找到最適合的咖啡廳。
 
-## Available Scripts
+## 功能特點
 
-In the project directory, you can run:
+- **地區搜尋**：使用者可以通過輸入地區名稱來搜尋該地區的咖啡廳。
+- **關鍵字搜尋**：使用者可以使用關鍵字來進行搜尋，例如咖啡廳名稱、特色等。
+- **地圖顯示**：搜尋結果可以以地圖形式呈現，讓使用者直觀地了解咖啡廳的位置分佈。
 
-### `npm start`
+## 如何使用
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. 在搜尋欄輸入地區名稱或關鍵字。
+2. 點擊咖啡廳資訊以查看詳細信息，包括地址、營業時間、評分...等。
+3. 在地圖上查看咖啡廳位置。
+4. 提供Facebook可以查看詳細內容。
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 技術細節
 
-### `npm test`
+- **前端框架**：我們使用 React.js 構建了前端界面，以實現快速響應和友好的用戶體驗。
+- **後端處理**：後端服務主要是對 Cafe Nomad API 的請求和處理，以及一些輔助功能的實現。
+- **地圖服務**：我們使用了Google Map API 來顯示咖啡廳位置和提供路線規劃功能。
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 網站連結
+[CofFinder](https://coffinder.netlify.app/)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
